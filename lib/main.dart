@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kv_dev/providers/CryptoApiProvider.dart';
 import 'package:kv_dev/providers/ThemeProvider.dart';
 import 'package:kv_dev/ui/core/MainWraper.dart';
 import 'package:kv_dev/ui/core/ThemeSwitcher.dart';
@@ -16,7 +17,11 @@ void main() {
 
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (context) => ThemeProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => CryptoApiProvider())
+      ],
+
       child: const KvApp(),
 
     ),

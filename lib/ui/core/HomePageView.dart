@@ -10,6 +10,7 @@ class HomePageView extends StatefulWidget {
 }
 
 class _HomePageViewState extends State<HomePageView> {
+
   var images =[
     "https://www.ineteconomics.org/uploads/featured/bitcoin-fiat.jpg",
     "https://images.news18.com/ibnlive/uploads/2021/09/cryptocurrency-16326473653x2.jpg",
@@ -19,7 +20,7 @@ class _HomePageViewState extends State<HomePageView> {
   @override
   Widget build(BuildContext context) {
     return PageView(
-      allowImplicitScrolling: true,
+
       controller: widget.controller,
       children: [
         showPageView(images[0]),
