@@ -22,7 +22,7 @@ class _BottomNavState extends State<BottomNav> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
 
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width /2 -20,
               height: 50,
               child: Row(
@@ -43,7 +43,7 @@ class _BottomNavState extends State<BottomNav> {
                 ],
               ),
             ),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width /2 -20,
               height: 50,
               child: Row(
