@@ -14,12 +14,15 @@ class CryptoApiProvider extends ChangeNotifier {
 
     try {
       response = await apiProvider.getTopMarketDataCapt();
+      print(response);
 
       if (response.statusCode == 200) {
         futureData = AllCryptoModel.fromJson(response);
         state = ResponseModel.completed(futureData);
-      } else
-        (state = ResponseModel.error("try again please"));
+      } else{
+        state = ResponseModel.error("try again please");
+      }
+
       notifyListeners();
     } catch (e) {
       state = ResponseModel.error("please check your connection");
