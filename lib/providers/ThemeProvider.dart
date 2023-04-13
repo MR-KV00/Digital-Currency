@@ -26,11 +26,11 @@ class MyTheme{
       labelSmall: GoogleFonts.ubuntu(color: Colors.black38,fontSize: 13),
       bodySmall: GoogleFonts.ubuntu(color: Colors.black,fontSize: 15),
     ),
-    unselectedWidgetColor: Colors.black,
-    primaryColorLight: Colors.white,
-    scaffoldBackgroundColor: Colors.white,
+    unselectedWidgetColor:Colors.black,
+    primaryColorLight:Colors.white,
+    scaffoldBackgroundColor:Colors.white,
     primaryColor: Colors.blueAccent,
-    secondaryHeaderColor: Colors.black,
+    secondaryHeaderColor:Colors.black,
       iconTheme: const IconThemeData(color: Colors.white,opacity: 0.8)
 
 
