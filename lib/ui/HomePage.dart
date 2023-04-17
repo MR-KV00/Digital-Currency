@@ -1,9 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kv_dev/helpper/DecimalRounder.dart';
+import 'package:kv_dev/models/CryptoModel/CryptoData.dart';
 import 'package:kv_dev/netWork/ResponseModel.dart';
 import 'package:kv_dev/providers/CryptoApiProvider.dart';
 import 'package:kv_dev/ui/core/ThemeSwitcher.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'core/HomePageView.dart';
@@ -30,19 +36,16 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-   var cryptoApiProvider=Provider.of<CryptoApiProvider>(context,listen: false);
-   cryptoApiProvider.getTopMarketDataCap();
-
+    var cryptoApiProvider =
+        Provider.of<CryptoApiProvider>(context, listen: false);
+    cryptoApiProvider.getTopMarketDataCap();
   }
 
   @override
   Widget build(BuildContext context) {
-
-
+    var height = MediaQuery.of(context).size.width;
     var textStyle = Theme.of(context).textTheme;
     var appbarColor = Theme.of(context).primaryColor;
-
-
 
     return Scaffold(
       drawer: const Drawer(),
@@ -153,23 +156,235 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              Consumer<CryptoApiProvider>(
-                  builder: (context, cryptoData, child) {
-                switch (cryptoData.state.status) {
-                  case Status.LOADING:
-                    return Text(cryptoData.state.massage);
-                  case Status.COMPLETED:
-                    return Text("done");
-                  case Status.ERROR:
-                    return Text(cryptoData.state.massage);
-                   default:
-                    return Container();
-                }
-              })
+              SizedBox(
+                height: 500,
+                child: Consumer<CryptoApiProvider>(
+                    builder: (context, cryptoData, child) {
+                  switch (cryptoData.state.status) {
+                    case Status.LOADING:
+                      return loadingApi();
+                    case Status.COMPLETED:
+                      return completedApi(context, cryptoData);
+                    case Status.ERROR:
+                      return Text(cryptoData.state.massage);
+                    default:
+                      return Container();
+                  }
+                }),
+              )
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget loadingApi() {
+    return SizedBox(
+      height: 80,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.shade400,
+        highlightColor: Colors.white,
+        child: ListView.builder(
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(left: 8, top: 8, right: 8),
+                  child: CircleAvatar(
+                    child: Icon(Icons.add),
+                    backgroundColor: Colors.white,
+                    radius: 30,
+                  ),
+                ),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 15,
+                            width: 50,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: SizedBox(
+                              height: 15,
+                              width: 25,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 40,
+                            width: 170,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8, right: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            height: 15,
+                            width: 50,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.white),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 8),
+                            child: SizedBox(
+                              height: 15,
+                              width: 25,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )),
+              ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget completedApi(BuildContext context,CryptoApiProvider cryptoApiProvider) {
+
+    var height = MediaQuery.of(context).size.width;
+    var textStyle = Theme.of(context).textTheme;
+    ///
+      List<CryptoData>? modal = cryptoApiProvider.futureData.data?.cryptoCurrencyList!;
+
+
+
+    return ListView.separated(
+        itemBuilder: (context, index) {
+          var number = index + 1;
+          var name = modal![index].name;
+          var idPic = modal![index].id;
+          var symbol = modal![index].symbol;
+          ///
+          var finalPrice = DecimalRounder.removePriceDecimal(modal[index].quotes![0].price);
+          var percentChange = DecimalRounder.removePercentDecimal(modal[index].quotes![0].percentChange24h);
+          MaterialColor filterColor = DecimalRounder.setColorFilter(modal[index].quotes![0].percentChange24h);
+          var percentColor = DecimalRounder.setPercentColorFilter(modal[index].quotes![0].percentChange24h);
+          Icon percentIcon = DecimalRounder.setPercentIconChange(modal[index].quotes![0].percentChange24h);
+          ///
+
+          return SizedBox(
+            height: height * 0.095,
+            child: Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(
+                    number.toString(),
+                    style: textStyle.bodySmall,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 8,right: 15),
+                  child: CachedNetworkImage(
+                    fadeInDuration: Duration(milliseconds: 500),
+                    imageUrl:
+                    "https://s2.coinmarketcap.com/static/img/coins/32x32/$idPic.png",
+                    placeholder: (context, url) =>
+                        CircularProgressIndicator(),
+                    errorWidget: (context, url, error) =>
+                        Icon(Icons.error),
+                  ),
+                ),
+                Flexible(
+                    fit: FlexFit.tight,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            name!,
+                            style: textStyle.bodySmall,
+                          ),
+                          Text(
+                            symbol!,
+                            style: textStyle.labelSmall,
+                          )
+                        ],
+                      ),
+                    )),
+                Flexible(
+                    child: ColorFiltered(
+                      colorFilter: ColorFilter.mode(filterColor, BlendMode.srcATop),
+                      child:SvgPicture.network("https://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$idPic.svg") ,
+                    )),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text("\$$finalPrice",style: textStyle.bodySmall,),
+                        Row(
+                         mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            percentIcon,
+                            Text("$percentChange %",style: GoogleFonts.ubuntu(color: percentColor,fontSize: 13),),
+
+
+
+                          ],
+                        )
+
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
+        separatorBuilder: (context, index) => const Divider(),
+        itemCount: 12);
   }
 }

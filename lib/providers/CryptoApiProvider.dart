@@ -12,21 +12,27 @@ class CryptoApiProvider extends ChangeNotifier {
   getTopMarketDataCap() async {
     state = ResponseModel.loading("is loading...");
 
-    try {
+
+    try{
       response = await apiProvider.getTopMarketDataCapt();
-      print(response);
 
       if (response.statusCode == 200) {
-        futureData = AllCryptoModel.fromJson(response);
+        futureData = AllCryptoModel.fromJson(response.data);
+
         state = ResponseModel.completed(futureData);
-      } else{
+      } else {
         state = ResponseModel.error("try again please");
       }
 
       notifyListeners();
-    } catch (e) {
-      state = ResponseModel.error("please check your connection");
-      notifyListeners();
+    }catch (e) {
+
+      state =ResponseModel.error("please check our connection");
+
     }
+
+
+
   }
 }
+

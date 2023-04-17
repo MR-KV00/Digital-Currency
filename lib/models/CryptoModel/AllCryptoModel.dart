@@ -11,7 +11,7 @@ class AllCryptoModel {
     _data = data;
   }
 
-  AllCryptoModel.fromJson(dynamic json) {
+  AllCryptoModel.fromJson(dynamic  json) {
     _status = json['status'] != null ? Status.fromJson(json['status']) : null;
     _data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
