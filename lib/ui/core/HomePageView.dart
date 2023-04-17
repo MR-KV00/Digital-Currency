@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 
@@ -34,8 +35,13 @@ class _HomePageViewState extends State<HomePageView> {
   Widget showPageView(String image){
 
     return ClipRRect(
-      borderRadius: BorderRadius.all(Radius.circular(18)),
-      child:Image.network(image,fit: BoxFit.cover,) ,
+      borderRadius:const BorderRadius.all(Radius.circular(18)),
+      child:CachedNetworkImage(
+        imageUrl: image,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => const CircularProgressIndicator(),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ) ,
     );
   }
 }
