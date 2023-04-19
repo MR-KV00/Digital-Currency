@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kv_dev/providers/CryptoApiProvider.dart';
+import 'package:kv_dev/providers/FilterApiProvider.dart';
+import 'package:kv_dev/providers/MarketViewProvider.dart';
 import 'package:kv_dev/providers/ThemeProvider.dart';
+import 'package:kv_dev/ui/MarketView.dart';
+import 'package:kv_dev/ui/SignUpScreen.dart';
 import 'package:kv_dev/ui/core/MainWraper.dart';
 import 'package:kv_dev/ui/core/ThemeSwitcher.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +23,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
-        ChangeNotifierProvider(create: (context) => CryptoApiProvider())
+        ChangeNotifierProvider(create: (context) => CryptoApiProvider()),
+        ChangeNotifierProvider(create: (context) => MarketViewProvider()),
       ],
 
       child: const KvApp(),
@@ -50,7 +55,7 @@ class _KvAppState extends State<KvApp> {
             debugShowCheckedModeBanner: false,
             home: const Directionality(
                 textDirection: TextDirection.ltr,
-                child: MainWraper()
+                child: SignUpScreen()
 
             ),
           );

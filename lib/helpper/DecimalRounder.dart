@@ -87,11 +87,11 @@ class DecimalRounder {
   static Icon setPercentIconChange(percent24){
     Icon percentIcon;
     if (percent24 < 0) {
-      percentIcon = Icon(Icons.arrow_drop_down,color: Colors.red);
+      percentIcon = const Icon(Icons.arrow_drop_down,color: Colors.red);
     } else if (percent24 > 0) {
-      percentIcon = Icon(Icons.arrow_drop_up,color: Colors.green);
+      percentIcon = const Icon(Icons.arrow_drop_up,color: Colors.green);
     } else {
-      percentIcon =Icon(Icons.minimize,color: Colors.grey,) ;
+      percentIcon =const Icon(Icons.minimize,color: Colors.grey,) ;
     }
     return percentIcon;
     

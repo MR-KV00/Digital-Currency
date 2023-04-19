@@ -47,6 +47,7 @@ dependencies:
   shimmer: ^2.0.0
   cached_network_image: ^3.2.3
   flutter_svg: ^2.0.5
+  lottie: ^2.3.2
 
 
 
@@ -75,9 +76,12 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+     - images/a1.png
+     - images/a2.png
+     - images/a3.png
+     - images/a4.png
+     - images/waveloop.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
