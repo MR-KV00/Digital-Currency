@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kv_dev/providers/CryptoApiProvider.dart';
-import 'package:kv_dev/providers/FilterApiProvider.dart';
 import 'package:kv_dev/providers/MarketViewProvider.dart';
+import 'package:kv_dev/providers/RegisterUserProvider.dart';
 import 'package:kv_dev/providers/ThemeProvider.dart';
-import 'package:kv_dev/ui/MarketView.dart';
+import 'package:kv_dev/providers/UserDataProvider.dart';
 import 'package:kv_dev/ui/SignUpScreen.dart';
-import 'package:kv_dev/ui/core/MainWraper.dart';
-import 'package:kv_dev/ui/core/ThemeSwitcher.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 
 
@@ -25,6 +23,8 @@ void main() {
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => CryptoApiProvider()),
         ChangeNotifierProvider(create: (context) => MarketViewProvider()),
+        ChangeNotifierProvider(create: (context) => UserApiProvider()),
+        ChangeNotifierProvider(create: (context) => UserDataProvider()),
       ],
 
       child: const KvApp(),

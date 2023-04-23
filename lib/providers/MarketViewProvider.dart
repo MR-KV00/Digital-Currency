@@ -28,6 +28,7 @@ class MarketViewProvider extends ChangeNotifier {
     }catch (e) {
 
       state =ResponseModel.error("please check our connection");
+      notifyListeners();
 
     }
 
